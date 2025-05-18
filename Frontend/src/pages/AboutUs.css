@@ -1,0 +1,21 @@
+/* src/pages/AboutUs.css */
+.mission-section {
+    background-color: #f9f9f9;
+    padding: 40px 20px;
+    border-radius: 8px;
+  }
+  
+  .mission-section h2, .mission-section h3 {
+    color: #007bff;
+  }
+  
+  .mission-section p {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+  

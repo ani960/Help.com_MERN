@@ -1,0 +1,110 @@
+.donate-money-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #7f7fd5, #86a8e7, #91eae4);
+  font-family: 'Poppins', sans-serif;
+  padding: 20px;
+}
+
+.donate-money-form {
+  width: 100%;
+  max-width: 500px;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.donate-money-form:hover {
+  transform: translateY(-5px);
+}
+
+.donate-money-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #4a4a4a;
+}
+
+.donate-money-input-group {
+  margin-bottom: 1.5rem;
+}
+
+.donate-money-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #4a4a4a;
+  font-weight: 500;
+}
+
+.donate-money-input,
+.donate-money-select,
+.donate-money-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  color: #4a4a4a;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.donate-money-input:focus,
+.donate-money-select:focus,
+.donate-money-textarea:focus {
+  outline: none;
+  border-color: #86a8e7;
+  box-shadow: 0 0 0 2px rgba(134, 168, 231, 0.2);
+}
+
+.donate-money-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.donate-money-button {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #86a8e7;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.donate-money-button:hover {
+  background-color: #7f7fd5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.donate-money-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 480px) {
+  .donate-money-form {
+    padding: 1.5rem;
+  }
+
+  .donate-money-title {
+    font-size: 2rem;
+  }
+
+  .donate-money-input,
+  .donate-money-select,
+  .donate-money-textarea,
+  .donate-money-button {
+    font-size: 0.9rem;
+  }
+}
