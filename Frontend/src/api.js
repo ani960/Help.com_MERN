@@ -1,9 +1,14 @@
 import axios from "axios";
 
-// Define the backend API base URL
-const API = axios.create({ baseURL: "http://localhost:5000/api" });
+// ✅ Use backend URL from .env
+const API = axios.create({
+  baseURL: `${process.env.REACT_APP_API_URL}/api`,
+});
 
-// Helper function for error handling
+// ❗ Optional: debug log to ensure it's picking the correct URL
+console.log("🌐 Using API base URL:", process.env.REACT_APP_API_URL);
+
+// 🔧 Error handler
 const handleApiError = (error, action) => {
   if (error.response) {
     console.error(`❌ API Error (${action}):`, error.response.data.message || error.response.data || "Unknown Error");
@@ -15,21 +20,21 @@ const handleApiError = (error, action) => {
   throw error;
 };
 
-// ✅ Fetch Users (Handles undefined response)
+// ✅ Fetch Users
 export const fetchUsers = async () => {
   try {
     const response = await API.get("/users");
     if (!response || !response.data) {
       throw new Error("Invalid response from server");
     }
-    return response.data; // Always return valid data
+    return response.data;
   } catch (error) {
     handleApiError(error, "fetching users");
-    return []; // Return an empty array to prevent UI crashes
+    return [];
   }
 };
 
-// ✅ Create a New User
+// ✅ Create a User
 export const createUser = async (userData) => {
   try {
     const response = await API.post("/users", userData);
