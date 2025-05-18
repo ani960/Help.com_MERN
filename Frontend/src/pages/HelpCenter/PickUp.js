@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import LocationPicker from "../../components/LocationPicker"; // ✅ Use single point location only
+import LocationPicker from "../../components/LocationPicker";
 
 const PickUp = () => {
   const [pickupDetails, setPickupDetails] = useState({
@@ -45,12 +45,12 @@ const PickUp = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/api/pickup", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/pickup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...pickupDetails,
-          coordinates: pickupLocation, // ✅ only pickup location is sent
+          coordinates: pickupLocation,
         }),
       });
 

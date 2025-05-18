@@ -7,7 +7,7 @@ const Drop = () => {
     category: "",
     quantity: "",
     condition: "",
-    location: "", // not used in UI but required by backend
+    location: "",
     phoneNumber: "",
   });
 
@@ -46,12 +46,12 @@ const Drop = () => {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:5000/api/drop", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/drop`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...donationDetails,
-          location: "Selected via map", // Required for backend schema
+          location: "Selected via map",
           coordinates: mapLocation,
         }),
       });
@@ -87,7 +87,6 @@ const Drop = () => {
         <AnimatePresence>
           {!submitted ? (
             <motion.form onSubmit={handleSubmit}>
-              {/* Category */}
               <select
                 name="category"
                 value={donationDetails.category}
@@ -103,7 +102,6 @@ const Drop = () => {
                 ))}
               </select>
 
-              {/* Quantity */}
               <input
                 type="number"
                 name="quantity"
@@ -114,7 +112,6 @@ const Drop = () => {
                 style={inputStyle}
               />
 
-              {/* Condition */}
               <input
                 type="text"
                 name="condition"
@@ -125,7 +122,6 @@ const Drop = () => {
                 style={inputStyle}
               />
 
-              {/* Phone Number */}
               <input
                 type="text"
                 name="phoneNumber"
@@ -136,11 +132,9 @@ const Drop = () => {
                 style={inputStyle}
               />
 
-              {/* Map Picker */}
               <label style={labelStyle}>Drop-off Location (Click on map):</label>
               <LocationPicker location={mapLocation} setLocation={setMapLocation} />
 
-              {/* Submit Button */}
               <motion.button type="submit" style={buttonStyle} disabled={loading}>
                 {loading ? "Processing..." : "Post Donation"}
               </motion.button>
@@ -156,7 +150,7 @@ const Drop = () => {
   );
 };
 
-// 🔧 Shared Styles
+// Styles
 const containerStyle = {
   display: "flex",
   justifyContent: "center",

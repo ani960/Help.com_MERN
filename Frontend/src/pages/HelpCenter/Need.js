@@ -48,7 +48,7 @@ const Need = () => {
     setError("");
 
     try {
-      const response = await fetch("http://localhost:5000/api/need", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/need`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...requestDetails, coordinates: mapLocation }),
@@ -112,7 +112,6 @@ const Need = () => {
           {!submitted ? (
             <motion.form onSubmit={handleSubmit}>
 
-              {/* Name */}
               <input
                 type="text"
                 name="name"
@@ -123,7 +122,6 @@ const Need = () => {
                 style={inputStyle}
               />
 
-              {/* Item Needed */}
               <input
                 type="text"
                 name="itemNeeded"
@@ -134,7 +132,6 @@ const Need = () => {
                 style={inputStyle}
               />
 
-              {/* Quantity */}
               <input
                 type="number"
                 name="quantity"
@@ -145,7 +142,6 @@ const Need = () => {
                 style={inputStyle}
               />
 
-              {/* Reason */}
               <textarea
                 name="reason"
                 placeholder="Reason for Request"
@@ -155,7 +151,6 @@ const Need = () => {
                 style={{ ...inputStyle, height: "80px", resize: "none" }}
               />
 
-              {/* Phone Number */}
               <input
                 type="text"
                 name="phoneNumber"
@@ -166,13 +161,11 @@ const Need = () => {
                 style={inputStyle}
               />
 
-              {/* Location Picker */}
               <label style={{ fontWeight: "bold", display: "block", marginBottom: "8px", marginTop: "20px", color: "#4a4a4a", fontSize: "18px" }}>
                 Location (optional):
               </label>
               <LocationPicker location={mapLocation} setLocation={setMapLocation} />
 
-              {/* Submit Button */}
               <motion.button
                 type="submit"
                 style={{
@@ -205,7 +198,6 @@ const Need = () => {
   );
 };
 
-// 🧾 Input styles reused
 const inputStyle = {
   width: "100%",
   padding: "12px 16px",

@@ -31,7 +31,7 @@ const Volunteer = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/api/volunteer", formData);
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/volunteer`, formData);
       alert("Thank you for signing up as a volunteer!");
       console.log("Response:", response.data);
       setFormData({

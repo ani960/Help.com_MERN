@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './DonateMoney.css';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'; // Import Stripe Elements
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
 export default function DonateMoney() {
@@ -14,8 +14,8 @@ export default function DonateMoney() {
 
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const stripe = useStripe();  // Stripe hooks
-  const elements = useElements();  // Stripe Elements
+  const stripe = useStripe();
+  const elements = useElements();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,28 +27,28 @@ export default function DonateMoney() {
     setLoading(true);
     setMessage('');
 
-    // Validation
     if (!formData.email || !formData.donationAmount || formData.donationAmount <= 0) {
       setMessage('Please provide valid inputs.');
       setLoading(false);
       return;
     }
 
-    // If the payment method is 'Credit Card', process the payment via Stripe
     if (formData.paymentMethod === 'Credit Card') {
       try {
-        // Step 1: Call the backend to create a payment intent
-        const response = await axios.post('http://localhost:5000/api/payment', {
+        const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/payment`, {
           amount: formData.donationAmount,
           email: formData.email,
         });
 
-        const { clientSecret } = response.data; // Get clientSecret
+        const { clientSecret } = response.data;
 
-        // Step 2: Confirm the payment with Stripe
+        const cardElement = elements.getElement(CardElement);
+
         const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-          type: 'Card',
-          billingDetails: { email: formData.email },
+          payment_method: {
+            card: cardElement,
+            billing_details: { email: formData.email },
+          },
         });
 
         if (error) {
@@ -74,9 +74,7 @@ export default function DonateMoney() {
         </h2>
 
         <div className="donate-money-input-group">
-          <label htmlFor="donorName" className="donate-money-label">
-            <span role="img" aria-label="Person">👤</span> Full Name
-          </label>
+          <label htmlFor="donorName" className="donate-money-label">👤 Full Name</label>
           <input
             type="text"
             id="donorName"
@@ -90,9 +88,7 @@ export default function DonateMoney() {
         </div>
 
         <div className="donate-money-input-group">
-          <label htmlFor="email" className="donate-money-label">
-            <span role="img" aria-label="Email">📧</span> Email
-          </label>
+          <label htmlFor="email" className="donate-money-label">📧 Email</label>
           <input
             type="email"
             id="email"
@@ -106,9 +102,7 @@ export default function DonateMoney() {
         </div>
 
         <div className="donate-money-input-group">
-          <label htmlFor="donationAmount" className="donate-money-label">
-            <span role="img" aria-label="Money">💰</span> Donation Amount (PKR)
-          </label>
+          <label htmlFor="donationAmount" className="donate-money-label">💰 Donation Amount (PKR)</label>
           <input
             type="number"
             id="donationAmount"
@@ -123,9 +117,7 @@ export default function DonateMoney() {
         </div>
 
         <div className="donate-money-input-group">
-          <label htmlFor="paymentMethod" className="donate-money-label">
-            <span role="img" aria-label="Credit Card">💳</span> Payment Method
-          </label>
+          <label htmlFor="paymentMethod" className="donate-money-label">💳 Payment Method</label>
           <select
             id="paymentMethod"
             name="paymentMethod"
@@ -142,20 +134,15 @@ export default function DonateMoney() {
           </select>
         </div>
 
-        {/* Stripe's Card Element */}
         {formData.paymentMethod === 'Credit Card' && (
           <div className="donate-money-input-group">
-            <label htmlFor="creditCard" className="donate-money-label">
-              <span role="img" aria-label="Card">💳</span> Credit Card Details
-            </label>
+            <label htmlFor="creditCard" className="donate-money-label">💳 Credit Card Details</label>
             <CardElement />
           </div>
         )}
 
         <div className="donate-money-input-group">
-          <label htmlFor="additionalInfo" className="donate-money-label">
-            <span role="img" aria-label="Memo">📝</span> Additional Information (Optional)
-          </label>
+          <label htmlFor="additionalInfo" className="donate-money-label">📝 Additional Information (Optional)</label>
           <textarea
             id="additionalInfo"
             name="additionalInfo"
