@@ -14,7 +14,13 @@ dotenv.config();
 connectDB();
 
 const app = express();
-app.use(cors());
+
+// ✅ Fix: Proper CORS for frontend deployment domain
+app.use(cors({
+  origin: "https://help-com-mern.onrender.com",
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Stripe Setup
