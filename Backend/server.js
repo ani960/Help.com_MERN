@@ -1,3 +1,4 @@
+// server.js
 const express = require("express");
 const connectDB = require("./config/db");
 const dotenv = require("dotenv");
@@ -131,14 +132,20 @@ app.post("/api/payment", async (req, res) => {
 });
 
 // === Serve React Frontend and Admin Panel ===
-app.use("/", express.static(path.join(__dirname, "../Frontend/build")));
 app.use("/admin", express.static(path.join(__dirname, "../Admin-Panel/build")));
+app.use("/", express.static(path.join(__dirname, "../Frontend/build")));
 
+// Health Check
+app.get("/api/test", (req, res) => {
+  res.json({ message: "✅ Backend is working and routing is active." });
+});
+
+// Handle SPA Routes
 app.get("/admin/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../Admin-Panel/build/index.html"));
 });
 
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "../Frontend/build/index.html"));
 });
 
