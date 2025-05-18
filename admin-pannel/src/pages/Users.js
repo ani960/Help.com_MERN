@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api"; // ✅ use env-based axios instance
 
 const Users = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/admin/users")
+    API.get("/admin/users")
       .then(response => setUsers(response.data))
       .catch(error => console.error("Error fetching users:", error));
   }, []);

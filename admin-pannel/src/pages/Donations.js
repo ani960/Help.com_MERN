@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api"; // ✅ Use shared axios instance
 
 const Donations = () => {
   const [donations, setDonations] = useState([]);
@@ -8,11 +8,10 @@ const Donations = () => {
   useEffect(() => {
     const fetchDonations = () => {
       const url = filterStatus
-        ? `http://localhost:5000/api/admin/donations?status=${filterStatus}`
-        : `http://localhost:5000/api/admin/donations`;
+        ? `/admin/donations?status=${filterStatus}`
+        : `/admin/donations`;
 
-      axios
-        .get(url)
+      API.get(url)
         .then((response) => setDonations(response.data))
         .catch((error) => console.error("Error fetching donations:", error));
     };
@@ -22,13 +21,13 @@ const Donations = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/donations/${id}`, { status });
+      await API.put(`/admin/donations/${id}`, { status });
 
       const url = filterStatus
-        ? `http://localhost:5000/api/admin/donations?status=${filterStatus}`
-        : `http://localhost:5000/api/admin/donations`;
+        ? `/admin/donations?status=${filterStatus}`
+        : `/admin/donations`;
 
-      const response = await axios.get(url);
+      const response = await API.get(url);
       setDonations(response.data);
     } catch (error) {
       console.error("Failed to update status:", error);
@@ -48,7 +47,7 @@ const Donations = () => {
 
     return (
       <div key={donation._id} style={cardStyle}>
-        <h3 style={{ marginBottom: "10px" }}>{type} Donation</h3>
+        <h3>{type} Donation</h3>
         <p><strong>Donor:</strong> {donation.donorName || donation.phoneNumber || "N/A"}</p>
         {donation.amount && <p><strong>Amount:</strong> Rs. {donation.amount}</p>}
         {donation.itemType && <p><strong>Item Type:</strong> {donation.itemType}</p>}

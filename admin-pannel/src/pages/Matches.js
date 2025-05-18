@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api"; // ✅ Use shared axios instance
 import {
   Table,
   TableHead,
@@ -18,7 +18,7 @@ const Matches = () => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/match");
+        const res = await API.get("/match");
         setMatches(res.data);
         setLoading(false);
       } catch (error) {

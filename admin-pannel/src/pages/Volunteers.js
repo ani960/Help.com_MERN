@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api"; // ✅ Use shared axios instance
 
 const Volunteers = () => {
   const [volunteers, setVolunteers] = useState([]);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:5000/api/admin/volunteers")
+    API.get("/admin/volunteers")
       .then((response) => setVolunteers(response.data))
       .catch((error) =>
         console.error("Error fetching volunteers:", error)

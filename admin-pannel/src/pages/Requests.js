@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api"; // ✅ Use shared axios instance
 
 const Requests = () => {
   const [requests, setRequests] = useState([]);
@@ -10,9 +10,9 @@ const Requests = () => {
     try {
       setLoading(true);
       const url = filterStatus
-        ? `http://localhost:5000/api/admin/requests?status=${filterStatus}`
-        : `http://localhost:5000/api/admin/requests`;
-      const response = await axios.get(url);
+        ? `/admin/requests?status=${filterStatus}`
+        : `/admin/requests`;
+      const response = await API.get(url);
       setRequests(response.data);
       setLoading(false);
     } catch (error) {
@@ -27,7 +27,7 @@ const Requests = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/admin/requests/${id}`, { status });
+      await API.put(`/admin/requests/${id}`, { status });
       await fetchRequests();
     } catch (error) {
       console.error("Failed to update status:", error);
@@ -35,9 +35,9 @@ const Requests = () => {
   };
 
   const handleMatch = async (id) => {
-    const cleanedId = id.trim(); // ✅ Trim newline/space from ID
+    const cleanedId = id.trim();
     try {
-      const response = await axios.post(`http://localhost:5000/api/match/${cleanedId}`);
+      const response = await API.post(`/match/${cleanedId}`);
       alert("✅ Match Created:\n" + JSON.stringify(response.data, null, 2));
       await fetchRequests();
     } catch (error) {
@@ -51,7 +51,7 @@ const Requests = () => {
 
     return (
       <div key={req._id} style={cardStyle}>
-        <h3 style={{ marginBottom: "10px" }}>{type}</h3>
+        <h3>{type}</h3>
         <p><strong>Name / Phone:</strong> {req.name || req.phoneNumber}</p>
         {req.itemNeeded && <p><strong>Item Needed:</strong> {req.itemNeeded}</p>}
         {req.quantity && <p><strong>Quantity:</strong> {req.quantity}</p>}

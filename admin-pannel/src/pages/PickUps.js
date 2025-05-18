@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import API from "../api"; // ✅ Use shared axios instance
 
 const PickUps = () => {
   const [pickups, setPickups] = useState([]);
@@ -8,11 +8,10 @@ const PickUps = () => {
   useEffect(() => {
     const fetchPickups = () => {
       const url = filterStatus
-        ? `http://localhost:5000/api/pickup?status=${filterStatus}`
-        : `http://localhost:5000/api/pickup`;
+        ? `/pickup?status=${filterStatus}`
+        : `/pickup`;
 
-      axios
-        .get(url)
+      API.get(url)
         .then((response) => setPickups(response.data))
         .catch((error) => console.error("Error fetching pickups:", error));
     };
@@ -22,13 +21,13 @@ const PickUps = () => {
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/pickup/${id}`, { status });
+      await API.put(`/pickup/${id}`, { status });
 
       const url = filterStatus
-        ? `http://localhost:5000/api/pickup?status=${filterStatus}`
-        : `http://localhost:5000/api/pickup`;
+        ? `/pickup?status=${filterStatus}`
+        : `/pickup`;
 
-      const response = await axios.get(url);
+      const response = await API.get(url);
       setPickups(response.data);
     } catch (error) {
       console.error("Failed to update pickup status:", error);

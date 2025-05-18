@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Grid, Typography, Container } from "@mui/material";
 import Card from "../components/Card";
+import API from "../api"; // ✅ Use shared API instance
 
 const Dashboard = () => {
   const [stats, setStats] = useState({ users: 0, donations: 0, requests: 0, volunteers: 0 });
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/admin/stats")
+    API.get("/admin/stats")
       .then(response => setStats(response.data))
       .catch(error => console.error("Error fetching stats:", error));
   }, []);
